@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A41K Games - Premium Game Collection</title>
+    <style>
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-300: #d4d4d4;
+            --gray-400: #a3a3a3;
+            --gray-500: #737373;
+            --gray-600: #525252;
+            --gray-700: #404040;
+            --gray-800: #262626;
+            --gray-900: #171717;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', 'Segoe UI', sans-serif;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes shine {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        body {
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/api/placeholder/1200/800') center/cover;
+            opacity: 0.2;
+            filter: grayscale(100%) contrast(120%);
+        }
+        
+        .header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 100%);
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+        }
+        
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s forwards 0.3s;
+            background: linear-gradient(90deg, var(--white) 0%, var(--gray-300) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        
+        .tagline {
+            font-size: 1.4rem;
+            font-weight: 300;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeInUp 1s forwards 0.6s;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--white);
+            color: var(--black);
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeInUp 1s forwards 0.9s, pulse 2s infinite 2s;
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.15);
+            background-color: var(--gray-200);
+        }
+        
+        section {
+            padding: 6rem 0;
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+            font-size: 2.5rem;
+            position: relative;
+            font-weight: 800;
+            opacity: 0;
+        }
+        
+        .section-title.animated {
+            animation: fadeInUp 1s forwards;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: var(--white);
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .game-card {
+            background: var(--gray-900);
+            border: 1px solid var(--gray-800);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        box-shadow 0.4s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(50px);
+            position: relative;
+        }
+        
+        .game-card.animated {
+            animation: fadeInUp 0.8s forwards;
+        }
+        
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--white), var(--gray-500), var(--gray-800), var(--white));
+            background-size: 400% 400%;
+            z-index: -1;
+            border-radius: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .game-card:hover::before {
+            opacity: 1;
+            animation: shine 3s linear infinite;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
+            z-index: 1;
+        }
+        
+        .game-img-container {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+        }
+        
+        .game-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s;
+            filter: grayscale(100%) contrast(120%);
+        }
+        
+        .game-card:hover .game-img {
+            transform: scale(1.1);
+            filter: grayscale(50%);
+        }
+        
+        .game-content {
+            padding: 1.8rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .game-title {
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .game-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--white);
+            transition: width 0.3s;
+        }
+        
+        .game-card:hover .game-title::after {
+            width: 100%;
+        }
+        
+        .game-description {
+            margin-bottom: 1.8rem;
+            color: var(--gray-400);
+            font-weight: 300;
+            line-height: 1.7;
+            flex-grow: 1;
+        }
+        
+        .game-link {
+            align-self: flex-start;
+            background: transparent;
+            color: var(--white);
+            padding: 10px 22px;
+            border: 2px solid var(--white);
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .game-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background-color: var(--white);
+            transition: width 0.3s ease;
+            z-index: -1;
+        }
+        
+        .game-card:hover .game-link::before {
+            width: 100%;
+        }
+        
+        .game-card:hover .game-link {
+            color: var(--black);
+        }
+        
+        .featured {
+            position: relative;
+        }
+        
+        .featured::after {
+            content: 'Legujjabb';
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--white);
+            color: var(--black);
+            padding: 5px 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transform: rotate(45deg);
+            z-index: 2;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            background: url('/api/placeholder/1200/800') center/cover fixed;
+            opacity: 0.04;
+            filter: grayscale(100%) blur(2px);
+        }
+        
+        footer {
+            background: var(--gray-900);
+            padding: 4rem 0 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .footer-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--gray-800) 1px, transparent 1px),
+                linear-gradient(90deg, var(--gray-800) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.1;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border: 2px solid var(--white);
+            border-radius: 50%;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--white);
+            transform: scale(0);
+            transition: transform 0.3s;
+            border-radius: 50%;
+        }
+        
+        .social-link:hover::before {
+            transform: scale(1);
+        }
+        
+        .social-link span {
+            position: relative;
+            z-index: 2;
+            transition: color 0.3s;
+        }
+        
+        .social-link:hover span {
+            color: var(--black);
+        }
+        
+        .copyright {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+        
+        .logo-container {
+            margin-bottom: 2rem;
+            display: inline-block;
+            position: relative;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+        
+        .logo-badge {
+            position: absolute;
+            top: -5px;
+            right: -15px;
+            background: var(--white);
+            color: var(--black);
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            z-index: 1000;
+            transition: background-color 0.3s, padding 0.3s;
+        }
+        
+        .nav.scrolled {
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 15px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--white);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: var(--gray-300);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--white);
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: var(--white);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--white);
+            color: var(--black);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 990;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* Loading overlay styles */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--black);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s, visibility 0s 1s;
+        }
+        
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--gray-800);
+            border-radius: 50%;
+            border-top-color: var(--white);
+            animation: rotate 1s linear infinite;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="mainNav">
+        <div class="container nav-container">
+            <a href="https://a41k.xyz" class="nav-logo">A41K</a>
+            <div class="nav-links">
+                <a href="#games" class="nav-link">Games</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Header -->
+    <header id="home">
+        <div class="header-bg"></div>
+        <div class="header-overlay"></div>
+        <div class="container header-content">
+            <h1>A41K</h1>
+            <p class="tagline">A legjobb Játékok ezen az oldalon</p>
+            <a href="#games" class="cta-button">Nézd meg</a>
+        </div>
+    </header>
+    
+    <!-- Games Section -->
+    <section id="games">
+        <div class="parallax-bg"></div>
+        <div class="container">
+            <h2 class="section-title" id="gamesTitle">A Játék Gyüjtemény</h2>
+            
+            <div class="games-grid">
+                <!-- Featured Game -->
+                <div class="game-card featured" id="card1">
+                    <div class="game-img-container">
+                        <img src="images/Goosters.png" alt="Goosters" class="game-img">
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">Goosters</h3>
+                        <p class="game-description">An elegant adventure where you navigate through mysterious landscapes as a majestic goose. Discover hidden secrets and unlock new abilities.</p>
+                        <a href="http://a41k.xyz/Goosters" class="game-link">Play Now</a>
+                    </div>
+                </div>
+                
+                <div class="game-card" id="card2">
+                    <div class="game-img-container">
+                        <img src="images/ScoreGuess.png" alt="Score Guess" class="game-img">
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">Score Guess</h3>
+                        <p class="game-description">A sophisticated prediction game that challenges your intuition and analytical skills. Forecast outcomes and earn points for accuracy.</p>
+                        <a href="http://a41k.xyz/ScoreGuess" class="game-link">Play Now</a>
+                    </div>
+                </div>
+                
+                <div class="game-card" id="card2">
+                    <div class="game-img-container">
+                        <img src="images/mockup.png" alt="Mockup #1" class="game-img">
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">Mockup</h3>
+                        <p class="game-description">A captivating mockup where you navigate through a visually stunning design. Discover hidden secrets and unlock new ideas </p>
+                        <a href="http://a41k.xyz/mockup" class="game-link">Play Now</a>
+                    </div>
+                </div>
+
+                <div class="game-card" id="card3">
+                    <div class="game-img-container">
+                        <img src="images/Lotb2.png" alt="Lootbox 2" class="game-img">
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">Lootbox 2</h3>
+                        <p class="game-description">The refined sequel to our popular Lootbox game. Experience enhanced mechanics, rare collectibles, and an immersive unboxing environment.</p>
+                        <a href="http://a41k.xyz/Lootbox2" class="game-link">Play Now</a>
+                    </div>
+                </div>
+                
+                <div class="game-card" id="card4">
+                    <div class="game-img-container">
+                        <img src="images/Clicker.png" alt="Clicker" class="game-img">
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">Clicker</h3>
+                        <p class="game-description">A minimalist incremental experience with precise interactions. Build your empire through strategic upgrades and calculated progression.</p>
+                        <a href="http://a41k.xyz/Clicker" class="game-link">Play Now</a>
+                    </div>
+                </div>
+                
+                <div class="game-card" id="card5">
+                    <div class="game-img-container">
+                        <img src="images/Vinyl.png" alt="Smaller" class="game-img">
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">Smaller</h3>
+                        <p class="game-description">A puzzle game of perspective and scale. Master the art of transformation as you navigate through increasingly complex environments.</p>
+                        <a href="http://a41k.xyz/Smaller" class="game-link">Play Now</a>
+                    </div>
+                </div>
+                
+                <div class="game-card" id="card6">
+                    <div class="game-img-container">
+                        <img src="images/Guess.png" alt="Guess" class="game-img">
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">Guess</h3>
+                        <p class="game-description">A sophisticated deduction game that tests your cognitive abilities. Analyze patterns and make intelligent deductions to succeed.</p>
+                        <a href="http://a41k.xyz/Guess" class="game-link">Play Now</a>
+                    </div>
+                </div>
+                
+                <div class="game-card" id="card7">
+                    <div class="game-img-container">
+                        <img src="images/Choose.png" alt="Choose" class="game-img">
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">Choose</h3>
+                        <p class="game-description">A narrative-driven experience where your decisions shape the story. Each choice branches into unique pathways with consequences.</p>
+                        <a href="http://a41k.xyz/Choose" class="game-link">Play Now</a>
+                    </div>
+                </div>
+                
+                <div class="game-card" id="card8">
+                    <div class="game-img-container">
+                        <img src="images/CardGame.png" alt="Card Game" class="game-img">
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">Card Game</h3>
+                        <p class="game-description">A strategic card experience with elegant mechanics. Build powerful combinations and outmaneuver opponents through tactical play.</p>
+                        <a href="http://a41k.xyz/CardGame" class="game-link">Play Now</a>
+                    </div>
+                </div>
+                
+                <div class="game-card" id="card9">
+                    <div class="game-img-container">
+                        <img src="images/Color.png" alt="Color Game" class="game-img">
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">Color Game</h3>
+                        <p class="game-description">A minimalist puzzle experience exploring the nuances of color perception. Train your eye to recognize subtle differences in monochromatic tones.</p>
+                        <a href="http://a41k.xyz/ColorGame" class="game-link">Play Now</a>
+                    </div>
+                </div>
+                
+                <div class="game-card" id="card10">
+                    <div class="game-img-container">
+                        <img src="images/Lootb.png" alt="LootBox" class="game-img">
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">LootBox</h3>
+                        <p class="game-description">The original collector's experience. Discover artifacts of varying rarity in an elegantly designed environment that celebrates anticipation.</p>
+                        <a href="http://a41k.xyz/LootBox" class="game-link">Play Now</a>
+                    </div>
+                </div>
+                
+                <div class="game-card" id="card11">
+                    <div class="game-img-container">
+                        <img src="images/spoti.png" alt="Spotify Randomizer" class="game-img">
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">Spotify Randomizer</h3>
+                        <p class="game-description">A sophisticated tool for music discovery. Curate your listening experience through intelligent algorithms that introduce you to new sounds.</p>
+                        <a href="http://a41k.xyz/Spotify-Randomizer" class="game-link">Try It</a>
+                    </div>
+                </div>
+                
+                <div class="game-card" id="card12">
+                    <div class="game-img-container">
+                        <img src="images/farm.png" alt="Farmland" class="game-img">
+                    </div>
+                    <div class="game-content">
+                        <h3 class="game-title">Farmland</h3>
+                        <p class="game-description">A refined agricultural simulation that balances resource management with aesthetic design. Create a thriving ecosystem through strategic planning.</p>
+                        <a href="http://a41k.xyz/Farmland" class="game-link">Play Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section id="about">
+        <div class="parallax-bg"></div>
+        <div class="container">
+            <h2 class="section-title" id="aboutTitle">About Us</h2>
+            <div style="max-width: 800px; margin: 0 auto; text-align: center; opacity: 0;" class="section-content" id="aboutContent">
+                <p style="margin-bottom: 2rem; font-size: 1.2rem; color: var(--gray-300);">
+                    Én Árok András csak a legjobb játékokat adom ki a kezeim közűl. Remélem Tetszenek.
+                </p>
+                <p style="color: var(--gray-400); font-size: 1.1rem;">
+                    Október 2024-óta vagyok a játékfejlesztésben, és azóta rengeteg játékot készítettem. Az oldalon található játékok a legjobbak közül valók, és remélem, hogy élvezni fogod őket.
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-pattern"></div>
+        <div class="container footer-content">
+            <div class="logo-container">
+                <div class="logo">A41K</div>
+                <div class="logo-badge">GAMES</div>
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-link"><span>T</span></a>
+                <a href="#" class="social-link"><span>F</span></a>
+                <a href="#" class="social-link"><span>G</span></a>
+                <a href="#" class="social-link"><span>D</span></a>
+            </div>
+            <p class="copyright">&copy; 2025 A41K Games. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Back to top button -->
+    <a href="#home" class="back-to-top" id="backToTop">↑</a>
+    
+    <script>
+// Loading animation
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        document.getElementById('loadingOverlay').style.opacity = '0';
+        setTimeout(function() {
+            document.getElementById('loadingOverlay').style.visibility = 'hidden';
+        }, 1000);
+    }, 1000);
+});
+
+// Navbar scroll effect
+window.addEventListener('scroll', function() {
+    const nav = document.getElementById('mainNav');
+    const backToTop = document.getElementById('backToTop');
+    
+    if (window.scrollY > 100) {
+        nav.classList.add('scrolled');
+        backToTop.classList.add('visible');
+    } else {
+        nav.classList.remove('scrolled');
+        backToTop.classList.remove('visible');
+    }
+});
+
+// Smooth scrolling for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
+
+// Add a heart icon after the header
+const header = document.querySelector('header');
+const heartIcon = document.createElement('div');
+heartIcon.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" style="position: absolute; left: 50%; transform: translateX(-50%) translateY(-50%); fill: var(--white); opacity: 0.8;">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+    </svg>
+`;
+heartIcon.style.position = 'relative';
+heartIcon.style.top = '60px';
+heartIcon.style.height = '0';
+heartIcon.style.width = '100%';
+heartIcon.style.pointerEvents = 'none';
+heartIcon.style.zIndex = '10';
+
+// Insert after the header
+header.parentNode.insertBefore(heartIcon, header.nextSibling);
+
+// Animation on scroll for elements
+function checkScroll() {
+    const elements = document.querySelectorAll('.section-title, .game-card, .section-content');
+    
+    elements.forEach(element => {
+        const position = element.getBoundingClientRect();
+        
+        // If element is in viewport
+        if(position.top < window.innerHeight * 0.9) {
+            element.classList.add('animated');
+            element.style.opacity = 1;
+        }
+    });
+}
+
+// Initial check and add scroll listener
+window.addEventListener('DOMContentLoaded', checkScroll);
+window.addEventListener('scroll', checkScroll);
+window.addEventListener('resize', checkScroll);
+    </script>
+</body>
+</html>
